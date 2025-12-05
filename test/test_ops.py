@@ -286,86 +286,104 @@ class TestCommon(TestCase):
 
         binary_overloads = ["max.other", "max.out", "min.other", "min.out"]
 
-        # direct_reduction_ops = [
-        #     torch.ops.aten.all.default,
-        #     torch.ops.aten.all.dim,
-        #     torch.ops.aten.all.dims,
-        #     torch.ops.aten.all.out,
-        #     torch.ops.aten.all.dims_out,
-        #     torch.ops.aten.all.all_out,
-        #     torch.ops.aten.all.dimname,
-        #     torch.ops.aten.all.dimname_out,
-        #     # Cannot register tag, since they are registered manually
-        #     # torch.ops.aten.all.int, 
-        #     # torch.ops.aten.all.float,
-        #     # torch.ops.aten.all.bool,
-        #     torch.ops.aten.any.default,
-        #     torch.ops.aten.any.dim,
-        #     torch.ops.aten.any.dims,
-        #     torch.ops.aten.any.out,
-        #     torch.ops.aten.any.dims_out,
-        #     torch.ops.aten.any.all_out,
-        #     torch.ops.aten.any.dimname,
-        #     torch.ops.aten.any.dimname_out,
-        #     # Cannot register tag, since they are registered manually
-        #     # torch.ops.aten.any.str,
-        #     # torch.ops.aten.any.int,
-        #     # torch.ops.aten.any.float,
-        #     # torch.ops.aten.any.bool,
-        #     torch.ops.aten.sum.dim_IntList,
-        #     torch.ops.aten.sum.default,
-        #     torch.ops.aten.sum.dim_DimnameList,
-        #     torch.ops.aten.sum.DimnameList_out,
-        #     torch.ops.aten.sum.IntList_out,
-        #     torch.ops.aten.sum.out,
-        #     # Cannot register tag, since they are registered manually
-        #     # torch.ops.aten.sum.int,
-        #     # torch.ops.aten.sum.float,
-        #     # torch.ops.aten.sum.complex,
-        #     # torch.ops.aten.sum.bool
-        #     torch.ops.aten.amax,
-        #     torch.ops.aten.amin,
-        #     torch.ops.aten.argmax,
-        #     torch.ops.aten.argmin,
-        #     torch.ops.aten.count_nonzero,
-        #     torch.ops.aten.mean,
-        #     torch.ops.aten.nanmean,
-        #     torch.ops.aten.std,
-        #     torch.ops.aten.std,
-        #     torch.ops.aten.var,
-        #     torch.ops.aten.var,
-        #     torch.ops.aten.prod,
+        import pdb; pdb.set_trace()
+        direct_reduction_ops = [
+            torch.ops.aten.all.default,
+            torch.ops.aten.all.dim,
+            torch.ops.aten.all.dims,
+            torch.ops.aten.all.out,
+            torch.ops.aten.all.dims_out,
+            torch.ops.aten.all.all_out,
+            torch.ops.aten.all.dimname,
+            torch.ops.aten.all.dimname_out,
+            # Cannot register tag, since they are registered manually
+            # torch.ops.aten.all.int, 
+            # torch.ops.aten.all.float,
+            # torch.ops.aten.all.bool,
+            torch.ops.aten.any.default,
+            torch.ops.aten.any.dim,
+            torch.ops.aten.any.dims,
+            torch.ops.aten.any.out,
+            torch.ops.aten.any.dims_out,
+            torch.ops.aten.any.all_out,
+            torch.ops.aten.any.dimname,
+            torch.ops.aten.any.dimname_out,
+            # Cannot register tag, since they are registered manually
+            # torch.ops.aten.any.str,
+            # torch.ops.aten.any.int,
+            # torch.ops.aten.any.float,
+            # torch.ops.aten.any.bool,
+            torch.ops.aten.sum.dim_IntList,
+            torch.ops.aten.sum.default,
+            torch.ops.aten.sum.dim_DimnameList,
+            torch.ops.aten.sum.DimnameList_out,
+            torch.ops.aten.sum.IntList_out,
+            torch.ops.aten.sum.out,
+            # Cannot register tag, since they are registered manually
+            # torch.ops.aten.sum.int,
+            # torch.ops.aten.sum.float,
+            # torch.ops.aten.sum.complex,
+            # torch.ops.aten.sum.bool
+            torch.ops.aten.amax,
+            torch.ops.aten.amin,
+            torch.ops.aten.argmax,
+            torch.ops.aten.argmin,
+            torch.ops.aten.count_nonzero,
+            torch.ops.aten.mean,
+            torch.ops.aten.nanmean,
+            torch.ops.aten.std,
+            torch.ops.aten.std,
+            torch.ops.aten.var,
+            torch.ops.aten.var,
+            torch.ops.aten.prod,
 
-        #     torch.ops.aten.nansum,
-        #     torch.ops.aten.linalg_vector_norm,
+            torch.ops.aten.nansum,
+            torch.ops.aten.linalg_vector_norm,
 
-        #     # second batch
-        #     torch.ops.aten.norm,
-        #     torch.ops.aten.max,
-        #     torch.ops.aten.min,
-        #     torch.ops.aten.aminmax,
-        #     torch.ops.aten.logsumexp,
-        #     torch.ops.aten.special_logsumexp,
-        #     torch.ops.aten.std_mean,
-        #     torch.ops.aten.var_mean,
+            # second batch
+            torch.ops.aten.norm,
+            torch.ops.aten.max.default,
+            torch.ops.aten.max.dim,
+            torch.ops.aten.max.dim_max,
+            torch.ops.aten.max.names_dim,
+            torch.ops.aten.max.names_dim_max,
+            torch.ops.aten.max.unary_out,
+            # binary operator, no reduction tag
+            # torch.ops.aten.max.other,
+            # torch.ops.aten.max.out,
+            torch.ops.aten.min.default,
+            torch.ops.aten.min.dim,
+            torch.ops.aten.min.dim_min,
+            torch.ops.aten.min.names_dim,
+            torch.ops.aten.min.names_dim_min,
+            torch.ops.aten.min.unary_out,
+            # binary operator, no reduction tag
+            # torch.ops.aten.min.other,
+            # torch.ops.aten.min.out,
+            torch.ops.aten.aminmax,
+            torch.ops.aten.logsumexp,
+            torch.ops.aten.special_logsumexp,
+            torch.ops.aten.std_mean,
+            torch.ops.aten.var_mean,
 
-        #     # third batch
-        #     torch.ops.aten.norm.ScalarOpt_dtype,
-        # ]
-        # import pdb; pdb.set_trace()
-        # for op in direct_reduction_ops:
-        #     if isinstance(op, OpOverloadPacket):
-        #         for overload_name in op.overloads():
-        #             overload = getattr(op, overload_name)
-        #             self.assertTrue(
-        #                 torch.Tag.reduction in overload.tags,
-        #                 f"The operator {overload} is a reduction operator and should have the reduction tag",
-        #             )
-        #     else:
-        #         self.assertTrue(
-        #             torch.Tag.reduction in op.tags,
-        #             f"The operator {op} is a reduction operator and should have the reduction tag",
-        #         )
+            # third batch
+            torch.ops.aten.norm.ScalarOpt_dtype,
+        ]
+        import pdb; pdb.set_trace()
+        for op in direct_reduction_ops:
+            if isinstance(op, OpOverloadPacket):
+                for overload_name in op.overloads():
+                    overload_op = getattr(op, overload_name)
+            else:
+                overload_op = op
+            # tags are not propagated to generated overload,
+            # and there's no way of specifying them
+            if torch.Tag.generated in overload_op.tags:
+                continue
+            self.assertTrue(
+                torch.Tag.reduction in overload_op.tags,
+                f"The operator {overload_op} is a reduction operator and should have the reduction tag",
+            )
         # These are registered in register_prim_ops.cpp or register_special_ops.cpp
         # and have no entries in native_functions.yaml, so we can't annotate them with the reduction tag
         manually_registered_overloads = [
