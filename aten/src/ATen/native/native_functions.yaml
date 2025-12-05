@@ -419,13 +419,11 @@
   variants: function
   dispatch:
     CPU, CUDA, MPS, Meta: view_as_real
-  tags: view
 
 - func: view_as_complex(Tensor(a) self) -> Tensor(a)
   variants: function
   dispatch:
     CPU, CUDA, MPS, Meta: view_as_complex
-  tags: view
 
 - func: sgn(Tensor self) -> Tensor
   variants: function, method
@@ -470,7 +468,6 @@
   variants: function, method
   dispatch:
     CompositeExplicitAutograd: _conj
-  tags: view
 
 - func: conj(Tensor(a) self) -> Tensor(a)
   variants: function, method
@@ -512,7 +509,6 @@
   variants: function, method
   dispatch:
     CompositeExplicitAutograd: _neg_view
-  tags: view
 
 - func: acos(Tensor self) -> Tensor
   device_check: NoCheck   # TensorIterator
@@ -963,7 +959,7 @@
     QuantizedCPU, QuantizedCUDA: as_strided_qtensorimpl
   device_check: NoCheck
   device_guard: False
-  tags: [core, view]
+  tags: core
 
 - func: as_strided_(Tensor(a!) self, SymInt[] size, SymInt[] stride, SymInt? storage_offset=None) -> Tensor(a!)
   use_const_ref_for_mutable_tensors: True
@@ -2118,7 +2114,7 @@
   variants: function, method
   dispatch:
     CompositeExplicitAutograd: diagonal
-  tags: [core, view]
+  tags: core
 
 - func: linalg_diagonal(Tensor(a) A, *, int offset=0, int dim1=-2, int dim2=-1) -> Tensor(a)
   python_module: linalg
@@ -2663,7 +2659,7 @@
   device_guard: False
   dispatch:
     CompositeExplicitAutograd: expand
-  tags: [core, view]
+  tags: core
 
 - func: expand_as(Tensor(a) self, Tensor other) -> Tensor(a)
   variants: method  # This is method-only to match the previous tensor API. In the future we could make this a function too.
@@ -4583,7 +4579,7 @@
     CompositeExplicitAutograd: permute
     MPS: permute_mps
     SparseCPU, SparseCUDA: permute_sparse_coo
-  tags: [core, view]
+  tags: core
 
 - func: movedim.intlist(Tensor(a) self, int[] source, int[] destination) -> Tensor(a)
   variants: function, method
@@ -5254,7 +5250,7 @@
     CompositeExplicitAutograd: select_symint
     SparseCsrCPU, SparseCsrCUDA, SparseCsrMeta: select_sparse_csr
     NestedTensorCPU, NestedTensorHPU, NestedTensorCUDA: select_nested
-  tags: [core, view]
+  tags: core
 
 - func: select_backward(Tensor grad_output, SymInt[] input_sizes, int dim, SymInt index) -> Tensor
   variants: function
@@ -5539,7 +5535,7 @@
   device_guard: False
   dispatch:
     CompositeExplicitAutograd: slice
-  tags: [core, view]
+  tags: core
 
 # NOTE: The implementation of split_with_sizes bypasses the dispatcher to call this; undo
 # that if adding specific implementations here!
@@ -5656,7 +5652,6 @@
   device_guard: False
   dispatch:
     CompositeExplicitAutograd: split
-  tags: view
 
 - func: split.sizes(Tensor(a -> *) self, SymInt[] split_size, int dim=0) -> Tensor(a)[]
   variants: function, method
@@ -5679,7 +5674,7 @@
   dispatch:
     CompositeExplicitAutograd: split_with_sizes
     NestedTensorCPU, NestedTensorHPU, NestedTensorCUDA: split_with_sizes_nested
-  tags: [core, view]
+  tags: core
 
 - func: hsplit.int(Tensor(a -> *) self, int sections) -> Tensor(a)[]
   variants: function, method
@@ -5707,7 +5702,6 @@
     CompositeExplicitAutograd: squeeze
     QuantizedCPU, QuantizedCUDA: squeeze_quantized
     NestedTensorCPU, NestedTensorHPU, NestedTensorCUDA: squeeze_nested
-  tags: view
 
 - func: squeeze.dim(Tensor(a) self, int dim) -> Tensor(a)
   variants: function, method
@@ -5717,7 +5711,7 @@
     CompositeExplicitAutograd: squeeze
     QuantizedCPU, QuantizedCUDA: squeeze_quantized
     NestedTensorCPU, NestedTensorHPU, NestedTensorCUDA: squeeze_dim_nested
-  tags: [core, view]
+  tags: core
 
 - func: squeeze.dimname(Tensor(a) self, Dimname dim) -> Tensor(a)
   variants: function, method
@@ -5732,7 +5726,7 @@
     CompositeExplicitAutograd: squeeze
     QuantizedCPU, QuantizedCUDA: squeeze_quantized
     NestedTensorCPU, NestedTensorHPU, NestedTensorCUDA: squeeze_dim_nested
-  tags: [core, view]
+  tags: core
 
 - func: squeeze_(Tensor(a!) self) -> Tensor(a!)
   variants: method
@@ -6072,7 +6066,6 @@
   variants: function, method
   dispatch:
     CompositeExplicitAutograd: t
-  tags: view
 
 - func: t_(Tensor(a!) self) -> Tensor(a!)
   device_check: NoCheck
@@ -6202,7 +6195,6 @@
   dispatch:
     CompositeExplicitAutograd: transpose
     NestedTensorCPU, NestedTensorHPU, NestedTensorCUDA: transpose_nested
-  tags: view
 
 - func: transpose.Dimname(Tensor(a) self, Dimname dim0, Dimname dim1) -> Tensor(a)
   variants: function, method
@@ -6510,7 +6502,7 @@
     SparseCPU, SparseCUDA: unsqueeze_sparse
     QuantizedCPU, QuantizedCUDA: unsqueeze_quantized
     NestedTensorCPU, NestedTensorHPU, NestedTensorCUDA: unsqueeze_nested
-  tags: [core, view]
+  tags: core
 
 - func: unsqueeze_(Tensor(a!) self, int dim) -> Tensor(a!)
   variants: method
@@ -7580,7 +7572,6 @@
   dispatch:
     CompositeExplicitAutograd: unbind
     NestedTensorCPU, NestedTensorHPU, NestedTensorCUDA: NestedTensor_unbind
-  tags: view
 
 - func: unbind.Dimname(Tensor(a -> *) self, Dimname dim) -> Tensor(a)[]
   variants: function, method
@@ -8212,7 +8203,7 @@
     ZeroTensor, Meta, CPU, CUDA, QuantizedCPU, QuantizedCUDA, MPS, MTIA: view
     MkldnnCPU: mkldnn_view
     NestedTensorCPU, NestedTensorHPU, NestedTensorCUDA: view_nested
-  tags: [core, view]
+  tags: core
 
 # Warning: If you want to change the name or overload name of this
 # operator, you might also want to change the `isBlockListedSchema`
@@ -10517,7 +10508,7 @@
   dispatch:
     CompositeExplicitAutograd: alias
     NestedTensorCPU, NestedTensorHPU, NestedTensorCUDA: alias_nested
-  tags: [core, view]
+  tags: core
 
 - func: _amp_foreach_non_finite_check_and_unscale_(Tensor(a!)[] self, Tensor(b!) found_inf, Tensor inv_scale) -> ()
   variants: function
