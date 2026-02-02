@@ -2292,6 +2292,14 @@ class CppKernel(Kernel):
 
     def reduction(self, dtype, src_dtype, reduction_type, value):
         argmax_or_argmin = reduction_type in ("argmax", "argmin")
+
+        # For argmax/argmin, value may be a tuple of (value, logical_index) for
+        # non-contiguous tensors. Extract the logical index to use instead of
+        # the physical memory index.
+        logical_index = None
+        if argmax_or_argmin and isinstance(value, tuple):
+            value, logical_index = value
+
         reduction_key = src_dtype, reduction_type, value
         if reduction_key in self.reduction_cse.reduction_cache:
             return self.reduction_cse.reduction_cache[reduction_key]
@@ -2341,6 +2349,9 @@ class CppKernel(Kernel):
             index = self.itervars[self.reduction_depth]
             for i in range(self.reduction_depth + 1, len(self.itervars)):
                 index = index * self.ranges[i] + self.itervars[i]
+            # Use logical_index for argmin/argmax on non-contiguous tensors
+            if logical_index is not None:
+                index = logical_index
             self.stores.writeline(
                 f"{acc} = {reduction_combine(reduction_type, acc, value, index=index)};"
             )
@@ -3007,6 +3018,14 @@ class CppVecKernel(CppKernel):
         # Fix issue: https://github.com/pytorch/pytorch/issues/143568
         assert reduction_type in VECTORIZABLE_RTYPES
         argmax_or_argmin = reduction_type in ("argmax", "argmin")
+
+        # For argmax/argmin, value may be a tuple of (value, logical_index) for
+        # non-contiguous tensors. Extract the logical index to use instead of
+        # the physical memory index.
+        logical_index = None
+        if argmax_or_argmin and isinstance(value, tuple):
+            value, logical_index = value
+
         horizontal_reduction = self.tiling_idx >= self.reduction_depth
         init_dtype = src_dtype if argmax_or_argmin else dtype
         assert isinstance(value, CppCSEVariable), value
@@ -3130,6 +3149,9 @@ class CppVecKernel(CppKernel):
             index = self.itervars[self.reduction_depth]
             for i in range(self.reduction_depth + 1, len(self.itervars)):
                 index = index * self.ranges[i] + self.itervars[i]
+            # Use logical_index for argmin/argmax on non-contiguous tensors
+            if logical_index is not None:
+                index = logical_index
             kwargs = {
                 "next_value": value,
                 "index": index,
